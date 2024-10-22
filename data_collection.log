@@ -1,0 +1,420 @@
+2024-10-06 14:50:25,909 [INFO] Directory created or already exists: data\raw
+2024-10-06 14:50:25,910 [INFO] Directory created or already exists: data\raw\yahoo
+2024-10-06 14:50:25,910 [INFO] Directory created or already exists: data\raw\alpha_vantage
+2024-10-06 14:50:25,911 [INFO] Directory created or already exists: data\raw\fred
+2024-10-06 14:50:25,911 [INFO] Directory created or already exists: data\raw\coingecko
+2024-10-06 14:50:25,911 [INFO] Directory created or already exists: data\processed
+2024-10-06 14:50:25,911 [INFO] Starting data fetching process.
+2024-10-06 14:50:25,911 [INFO] Fetching Yahoo Finance data for AAPL
+2024-10-06 14:50:28,761 [INFO] Saved Yahoo Finance data to data\raw\yahoo\AAPL.csv
+2024-10-06 14:50:28,761 [INFO] Fetching Yahoo Finance data for MSFT
+2024-10-06 14:50:28,992 [INFO] Saved Yahoo Finance data to data\raw\yahoo\MSFT.csv
+2024-10-06 14:50:28,992 [INFO] Fetching Yahoo Finance data for AMZN
+2024-10-06 14:50:29,180 [INFO] Saved Yahoo Finance data to data\raw\yahoo\AMZN.csv
+2024-10-06 14:50:29,180 [INFO] Fetching Yahoo Finance data for GOOGL
+2024-10-06 14:50:29,376 [INFO] Saved Yahoo Finance data to data\raw\yahoo\GOOGL.csv
+2024-10-06 14:50:29,376 [INFO] Fetching Yahoo Finance data for TSLA
+2024-10-06 14:50:29,598 [INFO] Saved Yahoo Finance data to data\raw\yahoo\TSLA.csv
+2024-10-06 14:50:29,598 [INFO] Fetching Yahoo Finance data for SPY
+2024-10-06 14:50:29,846 [INFO] Saved Yahoo Finance data to data\raw\yahoo\SPY.csv
+2024-10-06 14:50:29,847 [INFO] Fetching Yahoo Finance data for QQQ
+2024-10-06 14:50:30,097 [INFO] Saved Yahoo Finance data to data\raw\yahoo\QQQ.csv
+2024-10-06 14:50:30,098 [INFO] Fetching Yahoo Finance data for XLK
+2024-10-06 14:50:30,325 [INFO] Saved Yahoo Finance data to data\raw\yahoo\XLK.csv
+2024-10-06 14:50:30,326 [INFO] Fetching Yahoo Finance data for XLV
+2024-10-06 14:50:30,575 [INFO] Saved Yahoo Finance data to data\raw\yahoo\XLV.csv
+2024-10-06 14:50:30,575 [INFO] Fetching Yahoo Finance data for XLF
+2024-10-06 14:50:30,882 [INFO] Saved Yahoo Finance data to data\raw\yahoo\XLF.csv
+2024-10-06 14:50:30,882 [INFO] Fetching Yahoo Finance data for ^GSPC
+2024-10-06 14:50:31,055 [INFO] Saved Yahoo Finance data to data\raw\yahoo\^GSPC.csv
+2024-10-06 14:50:31,056 [INFO] Fetching Yahoo Finance data for ^TNX
+2024-10-06 14:50:31,218 [INFO] Saved Yahoo Finance data to data\raw\yahoo\^TNX.csv
+2024-10-06 14:50:31,218 [INFO] Fetching Yahoo Finance data for GC=F
+2024-10-06 14:50:31,380 [INFO] Saved Yahoo Finance data to data\raw\yahoo\GC=F.csv
+2024-10-06 14:50:31,380 [INFO] Fetching SMA for AAPL from Alpha Vantage
+2024-10-06 14:50:32,017 [INFO] Saved SMA data to data\raw\alpha_vantage\AAPL_SMA.csv
+2024-10-06 14:50:44,018 [INFO] Fetching EMA for AAPL from Alpha Vantage
+2024-10-06 14:50:44,689 [INFO] Saved EMA data to data\raw\alpha_vantage\AAPL_EMA.csv
+2024-10-06 14:50:56,691 [INFO] Fetching RSI for AAPL from Alpha Vantage
+2024-10-06 14:50:57,328 [INFO] Saved RSI data to data\raw\alpha_vantage\AAPL_RSI.csv
+2024-10-06 14:51:09,328 [INFO] Fetching MACD for AAPL from Alpha Vantage
+2024-10-06 14:51:09,499 [ERROR] Error fetching MACD for AAPL: Thank you for using Alpha Vantage! This is a premium endpoint. You may subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly unlock all premium endpoints
+2024-10-06 14:51:21,501 [INFO] Fetching SMA for MSFT from Alpha Vantage
+2024-10-06 14:51:22,153 [INFO] Saved SMA data to data\raw\alpha_vantage\MSFT_SMA.csv
+2024-10-06 14:51:34,154 [INFO] Fetching EMA for MSFT from Alpha Vantage
+2024-10-06 14:51:34,826 [INFO] Saved EMA data to data\raw\alpha_vantage\MSFT_EMA.csv
+2024-10-06 14:51:46,827 [INFO] Fetching RSI for MSFT from Alpha Vantage
+2024-10-06 14:51:47,485 [INFO] Saved RSI data to data\raw\alpha_vantage\MSFT_RSI.csv
+2024-10-06 14:51:59,487 [INFO] Fetching MACD for MSFT from Alpha Vantage
+2024-10-06 14:51:59,819 [ERROR] Error fetching MACD for MSFT: Thank you for using Alpha Vantage! This is a premium endpoint. You may subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly unlock all premium endpoints
+2024-10-06 14:52:11,821 [INFO] Fetching SMA for AMZN from Alpha Vantage
+2024-10-06 14:52:12,432 [INFO] Saved SMA data to data\raw\alpha_vantage\AMZN_SMA.csv
+2024-10-06 14:52:24,433 [INFO] Fetching EMA for AMZN from Alpha Vantage
+2024-10-06 14:52:25,221 [INFO] Saved EMA data to data\raw\alpha_vantage\AMZN_EMA.csv
+2024-10-06 14:52:37,222 [INFO] Fetching RSI for AMZN from Alpha Vantage
+2024-10-06 14:52:37,878 [INFO] Saved RSI data to data\raw\alpha_vantage\AMZN_RSI.csv
+2024-10-06 14:52:49,880 [INFO] Fetching MACD for AMZN from Alpha Vantage
+2024-10-06 14:52:50,237 [ERROR] Error fetching MACD for AMZN: Thank you for using Alpha Vantage! This is a premium endpoint. You may subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly unlock all premium endpoints
+2024-10-06 14:53:02,239 [INFO] Fetching SMA for GOOGL from Alpha Vantage
+2024-10-06 14:53:03,926 [INFO] Saved SMA data to data\raw\alpha_vantage\GOOGL_SMA.csv
+2024-10-06 14:53:15,928 [INFO] Fetching EMA for GOOGL from Alpha Vantage
+2024-10-06 14:53:16,585 [INFO] Saved EMA data to data\raw\alpha_vantage\GOOGL_EMA.csv
+2024-10-06 14:53:28,586 [INFO] Fetching RSI for GOOGL from Alpha Vantage
+2024-10-06 14:53:29,222 [INFO] Saved RSI data to data\raw\alpha_vantage\GOOGL_RSI.csv
+2024-10-06 14:53:41,224 [INFO] Fetching MACD for GOOGL from Alpha Vantage
+2024-10-06 14:53:41,415 [ERROR] Error fetching MACD for GOOGL: Thank you for using Alpha Vantage! This is a premium endpoint. You may subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly unlock all premium endpoints
+2024-10-06 14:53:53,417 [INFO] Fetching SMA for TSLA from Alpha Vantage
+2024-10-06 14:53:54,059 [INFO] Saved SMA data to data\raw\alpha_vantage\TSLA_SMA.csv
+2024-10-06 14:54:06,061 [INFO] Fetching EMA for TSLA from Alpha Vantage
+2024-10-06 14:54:06,606 [INFO] Saved EMA data to data\raw\alpha_vantage\TSLA_EMA.csv
+2024-10-06 14:54:18,608 [INFO] Fetching RSI for TSLA from Alpha Vantage
+2024-10-06 14:54:19,254 [INFO] Saved RSI data to data\raw\alpha_vantage\TSLA_RSI.csv
+2024-10-06 14:54:31,254 [INFO] Fetching MACD for TSLA from Alpha Vantage
+2024-10-06 14:54:31,439 [ERROR] Error fetching MACD for TSLA: Thank you for using Alpha Vantage! This is a premium endpoint. You may subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly unlock all premium endpoints
+2024-10-06 14:54:43,441 [INFO] Fetching SMA for SPY from Alpha Vantage
+2024-10-06 14:54:44,048 [INFO] Saved SMA data to data\raw\alpha_vantage\SPY_SMA.csv
+2024-10-06 14:54:56,050 [INFO] Fetching EMA for SPY from Alpha Vantage
+2024-10-06 14:54:56,732 [INFO] Saved EMA data to data\raw\alpha_vantage\SPY_EMA.csv
+2024-10-06 14:55:08,733 [INFO] Fetching RSI for SPY from Alpha Vantage
+2024-10-06 14:55:09,441 [INFO] Saved RSI data to data\raw\alpha_vantage\SPY_RSI.csv
+2024-10-06 14:55:21,442 [INFO] Fetching MACD for SPY from Alpha Vantage
+2024-10-06 14:55:21,609 [ERROR] Error fetching MACD for SPY: Thank you for using Alpha Vantage! This is a premium endpoint. You may subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly unlock all premium endpoints
+2024-10-06 14:55:33,611 [INFO] Fetching SMA for QQQ from Alpha Vantage
+2024-10-06 14:55:34,063 [INFO] Saved SMA data to data\raw\alpha_vantage\QQQ_SMA.csv
+2024-10-06 14:55:46,063 [INFO] Fetching EMA for QQQ from Alpha Vantage
+2024-10-06 14:55:46,898 [INFO] Saved EMA data to data\raw\alpha_vantage\QQQ_EMA.csv
+2024-10-06 14:55:58,899 [INFO] Fetching RSI for QQQ from Alpha Vantage
+2024-10-06 14:55:59,528 [INFO] Saved RSI data to data\raw\alpha_vantage\QQQ_RSI.csv
+2024-10-06 14:56:11,529 [INFO] Fetching MACD for QQQ from Alpha Vantage
+2024-10-06 14:56:11,712 [ERROR] Error fetching MACD for QQQ: Thank you for using Alpha Vantage! This is a premium endpoint. You may subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly unlock all premium endpoints
+2024-10-06 14:56:23,714 [INFO] Fetching SMA for XLK from Alpha Vantage
+2024-10-06 14:56:24,386 [INFO] Saved SMA data to data\raw\alpha_vantage\XLK_SMA.csv
+2024-10-06 14:56:36,386 [INFO] Fetching EMA for XLK from Alpha Vantage
+2024-10-06 14:56:37,105 [INFO] Saved EMA data to data\raw\alpha_vantage\XLK_EMA.csv
+2024-10-06 14:56:49,106 [INFO] Fetching RSI for XLK from Alpha Vantage
+2024-10-06 14:56:49,713 [INFO] Saved RSI data to data\raw\alpha_vantage\XLK_RSI.csv
+2024-10-06 14:57:01,715 [INFO] Fetching MACD for XLK from Alpha Vantage
+2024-10-06 14:57:03,801 [ERROR] Error fetching MACD for XLK: Thank you for using Alpha Vantage! This is a premium endpoint. You may subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly unlock all premium endpoints
+2024-10-06 14:57:15,803 [INFO] Fetching SMA for XLV from Alpha Vantage
+2024-10-06 14:57:16,648 [INFO] Saved SMA data to data\raw\alpha_vantage\XLV_SMA.csv
+2024-10-06 14:57:28,650 [INFO] Fetching EMA for XLV from Alpha Vantage
+2024-10-06 14:57:29,305 [INFO] Saved EMA data to data\raw\alpha_vantage\XLV_EMA.csv
+2024-10-06 14:57:41,306 [INFO] Fetching RSI for XLV from Alpha Vantage
+2024-10-06 14:57:41,490 [ERROR] Error fetching RSI for XLV: Thank you for using Alpha Vantage! Our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits.
+2024-10-06 14:57:53,492 [INFO] Fetching MACD for XLV from Alpha Vantage
+2024-10-06 14:57:53,840 [ERROR] Error fetching MACD for XLV: Thank you for using Alpha Vantage! This is a premium endpoint. You may subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly unlock all premium endpoints
+2024-10-06 14:58:05,841 [INFO] Fetching SMA for XLF from Alpha Vantage
+2024-10-06 14:58:06,109 [ERROR] Error fetching SMA for XLF: Thank you for using Alpha Vantage! Our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits.
+2024-10-06 14:58:18,110 [INFO] Fetching EMA for XLF from Alpha Vantage
+2024-10-06 14:58:18,308 [ERROR] Error fetching EMA for XLF: Thank you for using Alpha Vantage! Our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits.
+2024-10-06 14:58:30,310 [INFO] Fetching RSI for XLF from Alpha Vantage
+2024-10-06 14:58:30,501 [ERROR] Error fetching RSI for XLF: Thank you for using Alpha Vantage! Our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits.
+2024-10-06 14:58:42,503 [INFO] Fetching MACD for XLF from Alpha Vantage
+2024-10-06 14:58:42,679 [ERROR] Error fetching MACD for XLF: Thank you for using Alpha Vantage! This is a premium endpoint. You may subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly unlock all premium endpoints
+2024-10-06 14:58:54,681 [INFO] Fetching GDP (GDP) from FRED
+2024-10-06 14:58:55,037 [INFO] Saved FRED data for GDP to GDP.csv
+2024-10-06 14:58:55,038 [INFO] Fetching CPI (CPIAUCSL) from FRED
+2024-10-06 14:58:55,264 [INFO] Saved FRED data for CPI to CPIAUCSL.csv
+2024-10-06 14:58:55,264 [INFO] Fetching FEDFUNDS (FEDFUNDS) from FRED
+2024-10-06 14:58:55,498 [INFO] Saved FRED data for FEDFUNDS to FEDFUNDS.csv
+2024-10-06 14:58:55,498 [INFO] Fetching CoinGecko data for bitcoin
+2024-10-06 14:58:55,744 [ERROR] Error fetching CoinGecko data for bitcoin: {'error': {'status': {'timestamp': '2024-10-06T13:58:55.461+00:00', 'error_code': 10012, 'error_message': 'Your request exceeds the allowed time range. Public API users are limited to querying historical data within the past 365 days. Upgrade to a paid plan to enjoy full historical data access: https://www.coingecko.com/en/api/pricing. '}}}
+2024-10-06 14:58:56,746 [INFO] Fetching CoinGecko data for ethereum
+2024-10-06 14:58:56,919 [ERROR] Error fetching CoinGecko data for ethereum: {'error': {'status': {'timestamp': '2024-10-06T13:58:56.637+00:00', 'error_code': 10012, 'error_message': 'Your request exceeds the allowed time range. Public API users are limited to querying historical data within the past 365 days. Upgrade to a paid plan to enjoy full historical data access: https://www.coingecko.com/en/api/pricing. '}}}
+2024-10-06 14:58:57,921 [INFO] Data fetching process completed.
+2024-10-06 17:04:34,968 [INFO] Directory created or already exists: data\raw
+2024-10-06 17:04:34,968 [INFO] Directory created or already exists: data\raw\yahoo
+2024-10-06 17:04:34,969 [INFO] Directory created or already exists: data\raw\alpha_vantage
+2024-10-06 17:04:34,969 [INFO] Directory created or already exists: data\raw\fred
+2024-10-06 17:04:34,969 [INFO] Directory created or already exists: data\raw\coingecko
+2024-10-06 17:04:34,970 [INFO] Directory created or already exists: data\processed
+2024-10-06 17:04:34,970 [INFO] Fetching Yahoo Finance data for BTC-USD
+2024-10-06 17:04:34,970 [ERROR] Error fetching Yahoo Finance data for BTC-USD: module 'datetime' has no attribute 'now'
+2024-10-06 17:04:34,970 [INFO] Fetching Yahoo Finance data for ETH-USD
+2024-10-06 17:04:34,970 [ERROR] Error fetching Yahoo Finance data for ETH-USD: module 'datetime' has no attribute 'now'
+2024-10-06 17:05:15,049 [INFO] Directory created or already exists: data\raw
+2024-10-06 17:05:15,049 [INFO] Directory created or already exists: data\raw\yahoo
+2024-10-06 17:05:15,049 [INFO] Directory created or already exists: data\raw\alpha_vantage
+2024-10-06 17:05:15,050 [INFO] Directory created or already exists: data\raw\fred
+2024-10-06 17:05:15,050 [INFO] Directory created or already exists: data\raw\coingecko
+2024-10-06 17:05:15,050 [INFO] Directory created or already exists: data\processed
+2024-10-06 17:05:15,050 [INFO] Fetching Yahoo Finance data for BTC-USD
+2024-10-06 17:05:15,422 [ERROR] Error fetching Yahoo Finance data for BTC-USD: "['MarketCap'] not in index"
+2024-10-06 17:05:15,422 [INFO] Fetching Yahoo Finance data for ETH-USD
+2024-10-06 17:05:15,567 [ERROR] Error fetching Yahoo Finance data for ETH-USD: "['MarketCap'] not in index"
+2024-10-06 17:18:15,970 [INFO] Directory created or already exists: data\raw
+2024-10-06 17:18:15,971 [INFO] Directory created or already exists: data\raw\yahoo
+2024-10-06 17:18:15,971 [INFO] Directory created or already exists: data\raw\alpha_vantage
+2024-10-06 17:18:15,971 [INFO] Directory created or already exists: data\raw\fred
+2024-10-06 17:18:15,972 [INFO] Directory created or already exists: data\raw\coingecko
+2024-10-06 17:18:15,972 [INFO] Directory created or already exists: data\processed
+2024-10-06 17:18:15,972 [INFO] Fetching Yahoo Finance data for BTC-USD
+2024-10-06 17:18:16,305 [WARNING] 'Shares Outstanding' not available for BTC-USD. Market Cap cannot be calculated.
+2024-10-06 17:18:16,308 [ERROR] Error fetching Yahoo Finance data for BTC-USD: Cannot save file into a non-existent directory: 'data\raw\crypto'
+2024-10-06 17:18:16,309 [INFO] Fetching Yahoo Finance data for ETH-USD
+2024-10-06 17:18:16,414 [WARNING] 'Shares Outstanding' not available for ETH-USD. Market Cap cannot be calculated.
+2024-10-06 17:18:16,415 [ERROR] Error fetching Yahoo Finance data for ETH-USD: Cannot save file into a non-existent directory: 'data\raw\crypto'
+2024-10-06 17:19:13,304 [INFO] Directory created or already exists: data\raw
+2024-10-06 17:19:13,304 [INFO] Directory created or already exists: data\raw\yahoo
+2024-10-06 17:19:13,305 [INFO] Directory created or already exists: data\raw\alpha_vantage
+2024-10-06 17:19:13,305 [INFO] Directory created or already exists: data\raw\fred
+2024-10-06 17:19:13,305 [INFO] Directory created or already exists: data\raw\coingecko
+2024-10-06 17:19:13,306 [INFO] Directory created or already exists: data\processed
+2024-10-06 17:19:13,306 [INFO] Fetching Yahoo Finance data for BTC-USD
+2024-10-06 17:19:13,636 [WARNING] 'Shares Outstanding' not available for BTC-USD. Market Cap cannot be calculated.
+2024-10-06 17:19:13,639 [ERROR] Error fetching Yahoo Finance data for BTC-USD: Cannot save file into a non-existent directory: 'data\raw\crypto'
+2024-10-06 17:19:13,639 [INFO] Fetching Yahoo Finance data for ETH-USD
+2024-10-06 17:19:13,740 [WARNING] 'Shares Outstanding' not available for ETH-USD. Market Cap cannot be calculated.
+2024-10-06 17:19:13,740 [ERROR] Error fetching Yahoo Finance data for ETH-USD: Cannot save file into a non-existent directory: 'data\raw\crypto'
+2024-10-06 17:20:03,821 [INFO] Directory created or already exists: data\raw
+2024-10-06 17:20:03,822 [INFO] Directory created or already exists: data\raw\yahoo
+2024-10-06 17:20:03,822 [INFO] Directory created or already exists: data\raw\alpha_vantage
+2024-10-06 17:20:03,823 [INFO] Directory created or already exists: data\raw\fred
+2024-10-06 17:20:03,823 [INFO] Directory created or already exists: data\raw\coingecko
+2024-10-06 17:20:03,823 [INFO] Directory created or already exists: data\processed
+2024-10-06 17:20:03,824 [INFO] Fetching Yahoo Finance data for BTC-USD
+2024-10-06 17:20:04,170 [WARNING] 'Shares Outstanding' not available for BTC-USD. Market Cap cannot be calculated.
+2024-10-06 17:20:04,174 [ERROR] Error fetching Yahoo Finance data for BTC-USD: Cannot save file into a non-existent directory: 'data\raw\crypto'
+2024-10-06 17:20:04,174 [INFO] Fetching Yahoo Finance data for ETH-USD
+2024-10-06 17:20:04,280 [WARNING] 'Shares Outstanding' not available for ETH-USD. Market Cap cannot be calculated.
+2024-10-06 17:20:04,280 [ERROR] Error fetching Yahoo Finance data for ETH-USD: Cannot save file into a non-existent directory: 'data\raw\crypto'
+2024-10-06 17:20:13,136 [INFO] Directory created or already exists: data\raw
+2024-10-06 17:20:13,137 [INFO] Directory created or already exists: data\raw\yahoo
+2024-10-06 17:20:13,137 [INFO] Directory created or already exists: data\raw\alpha_vantage
+2024-10-06 17:20:13,138 [INFO] Directory created or already exists: data\raw\fred
+2024-10-06 17:20:13,138 [INFO] Directory created or already exists: data\raw\coingecko
+2024-10-06 17:20:13,138 [INFO] Directory created or already exists: data\processed
+2024-10-06 17:20:13,143 [INFO] Fetching Yahoo Finance data for BTC-USD
+2024-10-06 17:20:13,465 [INFO] Market Cap cannot be calculated for BTC-USD as 'Shares Outstanding' is not available.
+2024-10-06 17:20:13,478 [INFO] Saved crypto data to data\raw\crypto\BTC.csv
+2024-10-06 17:20:13,478 [INFO] Fetching Yahoo Finance data for ETH-USD
+2024-10-06 17:20:13,565 [INFO] Market Cap cannot be calculated for ETH-USD as 'Shares Outstanding' is not available.
+2024-10-06 17:20:13,574 [INFO] Saved crypto data to data\raw\crypto\ETH.csv
+2024-10-07 11:39:44,478 [INFO] Directory created or already exists: data\raw
+2024-10-07 11:39:44,479 [INFO] Directory created or already exists: data\raw\yahoo
+2024-10-07 11:39:44,479 [INFO] Directory created or already exists: data\raw\alpha_vantage
+2024-10-07 11:39:44,480 [INFO] Directory created or already exists: data\raw\fred
+2024-10-07 11:39:44,480 [INFO] Directory created or already exists: data\raw\crypto
+2024-10-07 11:39:44,480 [INFO] Directory created or already exists: data\raw\reits
+2024-10-07 11:39:44,480 [INFO] Directory created or already exists: data\processed
+2024-10-07 11:39:44,481 [INFO] Starting data fetching process.
+2024-10-07 11:39:44,481 [INFO] Fetching Yahoo Finance data for AAPL
+2024-10-07 11:39:46,834 [INFO] Saved Yahoo Finance data to data\raw\yahoo\AAPL.csv
+2024-10-07 11:39:46,835 [INFO] Fetching Yahoo Finance data for MSFT
+2024-10-07 11:39:47,039 [INFO] Saved Yahoo Finance data to data\raw\yahoo\MSFT.csv
+2024-10-07 11:39:47,040 [INFO] Fetching Yahoo Finance data for AMZN
+2024-10-07 11:39:47,185 [INFO] Saved Yahoo Finance data to data\raw\yahoo\AMZN.csv
+2024-10-07 11:39:47,186 [INFO] Fetching Yahoo Finance data for GOOGL
+2024-10-07 11:39:47,341 [INFO] Saved Yahoo Finance data to data\raw\yahoo\GOOGL.csv
+2024-10-07 11:39:47,342 [INFO] Fetching Yahoo Finance data for TSLA
+2024-10-07 11:39:47,497 [INFO] Saved Yahoo Finance data to data\raw\yahoo\TSLA.csv
+2024-10-07 11:39:47,497 [INFO] Fetching Yahoo Finance data for SPY
+2024-10-07 11:39:47,692 [INFO] Saved Yahoo Finance data to data\raw\yahoo\SPY.csv
+2024-10-07 11:39:47,692 [INFO] Fetching Yahoo Finance data for QQQ
+2024-10-07 11:39:47,860 [INFO] Saved Yahoo Finance data to data\raw\yahoo\QQQ.csv
+2024-10-07 11:39:47,861 [INFO] Fetching Yahoo Finance data for XLK
+2024-10-07 11:39:48,051 [INFO] Saved Yahoo Finance data to data\raw\yahoo\XLK.csv
+2024-10-07 11:39:48,051 [INFO] Fetching Yahoo Finance data for XLV
+2024-10-07 11:39:48,228 [INFO] Saved Yahoo Finance data to data\raw\yahoo\XLV.csv
+2024-10-07 11:39:48,228 [INFO] Fetching Yahoo Finance data for XLF
+2024-10-07 11:39:48,457 [INFO] Saved Yahoo Finance data to data\raw\yahoo\XLF.csv
+2024-10-07 11:39:48,457 [INFO] Fetching Yahoo Finance data for ^GSPC
+2024-10-07 11:39:48,600 [INFO] Saved Yahoo Finance data to data\raw\yahoo\^GSPC.csv
+2024-10-07 11:39:48,600 [INFO] Fetching Yahoo Finance data for ^IXIC
+2024-10-07 11:39:48,784 [INFO] Saved Yahoo Finance data to data\raw\yahoo\^IXIC.csv
+2024-10-07 11:39:48,784 [INFO] Fetching Yahoo Finance data for ^DJI
+2024-10-07 11:39:48,969 [INFO] Saved Yahoo Finance data to data\raw\yahoo\^DJI.csv
+2024-10-07 11:39:48,969 [INFO] Fetching Yahoo Finance data for ^RUT
+2024-10-07 11:39:49,157 [INFO] Saved Yahoo Finance data to data\raw\yahoo\^RUT.csv
+2024-10-07 11:39:49,157 [INFO] Fetching Yahoo Finance data for ^TNX
+2024-10-07 11:39:49,304 [INFO] Saved Yahoo Finance data to data\raw\yahoo\^TNX.csv
+2024-10-07 11:39:49,304 [INFO] Fetching Yahoo Finance data for IEF
+2024-10-07 11:39:49,572 [INFO] Saved Yahoo Finance data to data\raw\yahoo\IEF.csv
+2024-10-07 11:39:49,573 [INFO] Fetching Yahoo Finance data for TLT
+2024-10-07 11:39:49,842 [INFO] Saved Yahoo Finance data to data\raw\yahoo\TLT.csv
+2024-10-07 11:39:49,843 [INFO] Fetching Yahoo Finance data for GC=F
+2024-10-07 11:39:49,973 [INFO] Saved Yahoo Finance data to data\raw\yahoo\GC=F.csv
+2024-10-07 11:39:49,974 [INFO] Fetching Yahoo Finance data for CL=F
+2024-10-07 11:39:50,149 [INFO] Saved Yahoo Finance data to data\raw\yahoo\CL=F.csv
+2024-10-07 11:39:50,149 [INFO] Fetching Yahoo Finance data for SI=F
+2024-10-07 11:39:50,326 [INFO] Saved Yahoo Finance data to data\raw\yahoo\SI=F.csv
+2024-10-07 11:39:50,326 [INFO] Fetching Yahoo Finance data for VNQ
+2024-10-07 11:39:50,553 [INFO] Saved Yahoo Finance data to data\raw\yahoo\VNQ.csv
+2024-10-07 11:39:50,554 [INFO] Fetching Yahoo Finance data for SCHH
+2024-10-07 11:39:50,775 [INFO] Saved Yahoo Finance data to data\raw\yahoo\SCHH.csv
+2024-10-07 11:39:50,775 [INFO] Fetching Yahoo Finance data for IYR
+2024-10-07 11:39:51,030 [INFO] Saved Yahoo Finance data to data\raw\yahoo\IYR.csv
+2024-10-07 11:39:51,030 [INFO] Fetching SMA for AAPL from Alpha Vantage
+2024-10-07 11:39:51,828 [INFO] Saved SMA data to data\raw\alpha_vantage\AAPL_SMA.csv
+2024-10-07 11:40:03,830 [INFO] Fetching EMA for AAPL from Alpha Vantage
+2024-10-07 11:40:04,455 [INFO] Saved EMA data to data\raw\alpha_vantage\AAPL_EMA.csv
+2024-10-07 11:40:16,456 [INFO] Fetching RSI for AAPL from Alpha Vantage
+2024-10-07 11:40:17,080 [INFO] Saved RSI data to data\raw\alpha_vantage\AAPL_RSI.csv
+2024-10-07 11:40:29,082 [INFO] Fetching ADX for AAPL from Alpha Vantage
+2024-10-07 11:40:29,756 [INFO] Saved ADX data to data\raw\alpha_vantage\AAPL_ADX.csv
+2024-10-07 11:40:41,758 [INFO] Fetching SMA for MSFT from Alpha Vantage
+2024-10-07 11:40:42,385 [INFO] Saved SMA data to data\raw\alpha_vantage\MSFT_SMA.csv
+2024-10-07 11:40:54,386 [INFO] Fetching EMA for MSFT from Alpha Vantage
+2024-10-07 11:40:54,995 [INFO] Saved EMA data to data\raw\alpha_vantage\MSFT_EMA.csv
+2024-10-07 11:41:06,995 [INFO] Fetching RSI for MSFT from Alpha Vantage
+2024-10-07 11:41:07,797 [INFO] Saved RSI data to data\raw\alpha_vantage\MSFT_RSI.csv
+2024-10-07 11:41:19,798 [INFO] Fetching ADX for MSFT from Alpha Vantage
+2024-10-07 11:41:20,435 [INFO] Saved ADX data to data\raw\alpha_vantage\MSFT_ADX.csv
+2024-10-07 11:41:32,436 [INFO] Fetching SMA for AMZN from Alpha Vantage
+2024-10-07 11:41:33,051 [INFO] Saved SMA data to data\raw\alpha_vantage\AMZN_SMA.csv
+2024-10-07 11:41:45,052 [INFO] Fetching EMA for AMZN from Alpha Vantage
+2024-10-07 11:41:45,856 [INFO] Saved EMA data to data\raw\alpha_vantage\AMZN_EMA.csv
+2024-10-07 11:41:57,857 [INFO] Fetching RSI for AMZN from Alpha Vantage
+2024-10-07 11:41:58,652 [INFO] Saved RSI data to data\raw\alpha_vantage\AMZN_RSI.csv
+2024-10-07 11:42:10,654 [INFO] Fetching ADX for AMZN from Alpha Vantage
+2024-10-07 11:42:11,290 [INFO] Saved ADX data to data\raw\alpha_vantage\AMZN_ADX.csv
+2024-10-07 11:42:23,291 [INFO] Fetching SMA for GOOGL from Alpha Vantage
+2024-10-07 11:42:23,912 [INFO] Saved SMA data to data\raw\alpha_vantage\GOOGL_SMA.csv
+2024-10-07 11:42:35,914 [INFO] Fetching EMA for GOOGL from Alpha Vantage
+2024-10-07 11:42:36,485 [INFO] Saved EMA data to data\raw\alpha_vantage\GOOGL_EMA.csv
+2024-10-07 11:42:48,486 [INFO] Fetching RSI for GOOGL from Alpha Vantage
+2024-10-07 11:42:49,150 [INFO] Saved RSI data to data\raw\alpha_vantage\GOOGL_RSI.csv
+2024-10-07 11:43:01,158 [INFO] Fetching ADX for GOOGL from Alpha Vantage
+2024-10-07 11:43:02,306 [INFO] Saved ADX data to data\raw\alpha_vantage\GOOGL_ADX.csv
+2024-10-07 11:43:14,307 [INFO] Fetching SMA for TSLA from Alpha Vantage
+2024-10-07 11:43:14,893 [INFO] Saved SMA data to data\raw\alpha_vantage\TSLA_SMA.csv
+2024-10-07 11:43:26,895 [INFO] Fetching EMA for TSLA from Alpha Vantage
+2024-10-07 11:43:27,467 [INFO] Saved EMA data to data\raw\alpha_vantage\TSLA_EMA.csv
+2024-10-07 11:43:39,468 [INFO] Fetching RSI for TSLA from Alpha Vantage
+2024-10-07 11:43:40,025 [INFO] Saved RSI data to data\raw\alpha_vantage\TSLA_RSI.csv
+2024-10-07 11:43:52,026 [INFO] Fetching ADX for TSLA from Alpha Vantage
+2024-10-07 11:43:52,584 [INFO] Saved ADX data to data\raw\alpha_vantage\TSLA_ADX.csv
+2024-10-07 11:44:04,585 [INFO] Fetching SMA for SPY from Alpha Vantage
+2024-10-07 11:44:05,217 [INFO] Saved SMA data to data\raw\alpha_vantage\SPY_SMA.csv
+2024-10-07 11:44:17,219 [INFO] Fetching EMA for SPY from Alpha Vantage
+2024-10-07 11:44:18,020 [INFO] Saved EMA data to data\raw\alpha_vantage\SPY_EMA.csv
+2024-10-07 11:44:30,023 [INFO] Fetching RSI for SPY from Alpha Vantage
+2024-10-07 11:44:30,643 [INFO] Saved RSI data to data\raw\alpha_vantage\SPY_RSI.csv
+2024-10-07 11:44:42,644 [INFO] Fetching ADX for SPY from Alpha Vantage
+2024-10-07 11:44:43,259 [INFO] Saved ADX data to data\raw\alpha_vantage\SPY_ADX.csv
+2024-10-07 11:44:55,259 [INFO] Fetching SMA for QQQ from Alpha Vantage
+2024-10-07 11:44:55,941 [INFO] Saved SMA data to data\raw\alpha_vantage\QQQ_SMA.csv
+2024-10-07 11:45:07,942 [INFO] Fetching EMA for QQQ from Alpha Vantage
+2024-10-07 11:45:08,587 [INFO] Saved EMA data to data\raw\alpha_vantage\QQQ_EMA.csv
+2024-10-07 11:45:20,589 [INFO] Fetching RSI for QQQ from Alpha Vantage
+2024-10-07 11:45:20,917 [ERROR] Error fetching RSI for QQQ: Thank you for using Alpha Vantage! Our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits.
+2024-10-07 11:45:32,918 [INFO] Fetching ADX for QQQ from Alpha Vantage
+2024-10-07 11:45:33,092 [ERROR] Error fetching ADX for QQQ: Thank you for using Alpha Vantage! Our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits.
+2024-10-07 11:45:45,093 [INFO] Fetching SMA for XLK from Alpha Vantage
+2024-10-07 11:45:45,268 [ERROR] Error fetching SMA for XLK: Thank you for using Alpha Vantage! Our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits.
+2024-10-07 11:45:57,269 [INFO] Fetching EMA for XLK from Alpha Vantage
+2024-10-07 11:45:57,459 [ERROR] Error fetching EMA for XLK: Thank you for using Alpha Vantage! Our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits.
+2024-10-07 11:46:09,461 [INFO] Fetching RSI for XLK from Alpha Vantage
+2024-10-07 11:46:09,645 [ERROR] Error fetching RSI for XLK: Thank you for using Alpha Vantage! Our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits.
+2024-10-07 11:46:21,646 [INFO] Fetching ADX for XLK from Alpha Vantage
+2024-10-07 11:46:21,822 [ERROR] Error fetching ADX for XLK: Thank you for using Alpha Vantage! Our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits.
+2024-10-07 11:46:33,823 [INFO] Fetching SMA for XLV from Alpha Vantage
+2024-10-07 11:46:34,009 [ERROR] Error fetching SMA for XLV: Thank you for using Alpha Vantage! Our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits.
+2024-10-07 11:46:46,011 [INFO] Fetching EMA for XLV from Alpha Vantage
+2024-10-07 11:46:46,204 [ERROR] Error fetching EMA for XLV: Thank you for using Alpha Vantage! Our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits.
+2024-10-07 11:46:58,205 [INFO] Fetching RSI for XLV from Alpha Vantage
+2024-10-07 11:46:58,380 [ERROR] Error fetching RSI for XLV: Thank you for using Alpha Vantage! Our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits.
+2024-10-07 11:47:10,382 [INFO] Fetching ADX for XLV from Alpha Vantage
+2024-10-07 11:47:10,552 [ERROR] Error fetching ADX for XLV: Thank you for using Alpha Vantage! Our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits.
+2024-10-07 11:47:22,554 [INFO] Fetching SMA for XLF from Alpha Vantage
+2024-10-07 11:47:22,731 [ERROR] Error fetching SMA for XLF: Thank you for using Alpha Vantage! Our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits.
+2024-10-07 11:47:34,732 [INFO] Fetching EMA for XLF from Alpha Vantage
+2024-10-07 11:47:35,059 [ERROR] Error fetching EMA for XLF: Thank you for using Alpha Vantage! Our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits.
+2024-10-07 11:47:47,062 [INFO] Fetching RSI for XLF from Alpha Vantage
+2024-10-07 11:47:47,241 [ERROR] Error fetching RSI for XLF: Thank you for using Alpha Vantage! Our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits.
+2024-10-07 11:47:59,242 [INFO] Fetching ADX for XLF from Alpha Vantage
+2024-10-07 11:47:59,413 [ERROR] Error fetching ADX for XLF: Thank you for using Alpha Vantage! Our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits.
+2024-10-07 11:48:11,414 [INFO] Fetching GDP (GDP) from FRED
+2024-10-07 11:48:11,771 [INFO] Saved FRED data for GDP to GDP.csv
+2024-10-07 11:48:11,771 [INFO] Fetching CPI (CPIAUCSL) from FRED
+2024-10-07 11:48:12,059 [INFO] Saved FRED data for CPI to CPIAUCSL.csv
+2024-10-07 11:48:12,060 [INFO] Fetching FEDFUNDS (FEDFUNDS) from FRED
+2024-10-07 11:48:12,278 [INFO] Saved FRED data for FEDFUNDS to FEDFUNDS.csv
+2024-10-07 11:48:12,278 [INFO] Fetching UNRATE (UNRATE) from FRED
+2024-10-07 11:48:12,496 [INFO] Saved FRED data for UNRATE to UNRATE.csv
+2024-10-07 11:48:12,496 [INFO] Fetching PMI (NAPM) from FRED
+2024-10-07 11:48:12,766 [ERROR] Error fetching FRED data for NAPM: Bad Request.  The series does not exist.
+2024-10-07 11:48:12,766 [INFO] Fetching URBAN (URBAN) from FRED
+2024-10-07 11:48:13,053 [ERROR] Error fetching FRED data for URBAN: Bad Request.  The series does not exist.
+2024-10-07 11:48:13,053 [INFO] Fetching PPI (PPIACO) from FRED
+2024-10-07 11:48:13,287 [INFO] Saved FRED data for PPI to PPIACO.csv
+2024-10-07 11:48:13,288 [INFO] Fetching Yahoo Finance data for BTC-USD
+2024-10-07 11:48:13,529 [INFO] Saved crypto data to data\raw\crypto\BTC.csv
+2024-10-07 11:48:13,529 [INFO] Fetching Yahoo Finance data for ETH-USD
+2024-10-07 11:48:13,643 [INFO] Saved crypto data to data\raw\crypto\ETH.csv
+2024-10-07 11:48:13,644 [INFO] Fetching Yahoo Finance data for LTC-USD
+2024-10-07 11:48:13,817 [INFO] Saved crypto data to data\raw\crypto\LTC.csv
+2024-10-07 11:48:13,818 [INFO] Fetching REIT data for VNQ from Yahoo Finance
+2024-10-07 11:48:13,893 [INFO] Saved REIT data to data\raw\reits\VNQ.csv
+2024-10-07 11:48:13,893 [INFO] Fetching REIT data for SCHH from Yahoo Finance
+2024-10-07 11:48:13,970 [INFO] Saved REIT data to data\raw\reits\SCHH.csv
+2024-10-07 11:48:13,970 [INFO] Fetching REIT data for IYR from Yahoo Finance
+2024-10-07 11:48:14,036 [INFO] Saved REIT data to data\raw\reits\IYR.csv
+2024-10-07 11:48:14,036 [INFO] Data fetching process completed.
+2024-10-07 11:56:19,625 [INFO] Directory created or already exists: data\raw
+2024-10-07 11:56:19,625 [INFO] Directory created or already exists: data\raw\yahoo
+2024-10-07 11:56:19,626 [INFO] Directory created or already exists: data\raw\alpha_vantage
+2024-10-07 11:56:19,626 [INFO] Directory created or already exists: data\raw\fred
+2024-10-07 11:56:19,626 [INFO] Directory created or already exists: data\raw\crypto
+2024-10-07 11:56:19,627 [INFO] Directory created or already exists: data\raw\reits
+2024-10-07 11:56:19,627 [INFO] Directory created or already exists: data\processed
+2024-10-07 11:56:19,628 [INFO] Starting data fetching process.
+2024-10-07 11:57:18,161 [INFO] Directory created or already exists: data\raw
+2024-10-07 11:57:18,162 [INFO] Directory created or already exists: data\raw\yahoo
+2024-10-07 11:57:18,162 [INFO] Directory created or already exists: data\raw\alpha_vantage
+2024-10-07 11:57:18,162 [INFO] Directory created or already exists: data\raw\fred
+2024-10-07 11:57:18,163 [INFO] Directory created or already exists: data\raw\crypto
+2024-10-07 11:57:18,163 [INFO] Directory created or already exists: data\raw\reits
+2024-10-07 11:57:18,163 [INFO] Directory created or already exists: data\processed
+2024-10-07 11:57:18,164 [INFO] Starting data fetching process.
+2024-10-07 11:57:18,164 [INFO] Fetching SMA for SPY from Alpha Vantage
+2024-10-07 11:57:18,375 [ERROR] Error fetching SMA for SPY: Thank you for using Alpha Vantage! Our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits.
+2024-10-07 11:57:49,037 [INFO] Directory created or already exists: data\raw
+2024-10-07 11:57:49,038 [INFO] Directory created or already exists: data\raw\yahoo
+2024-10-07 11:57:49,038 [INFO] Directory created or already exists: data\raw\alpha_vantage
+2024-10-07 11:57:49,038 [INFO] Directory created or already exists: data\raw\fred
+2024-10-07 11:57:49,039 [INFO] Directory created or already exists: data\raw\crypto
+2024-10-07 11:57:49,039 [INFO] Directory created or already exists: data\raw\reits
+2024-10-07 11:57:49,040 [INFO] Directory created or already exists: data\processed
+2024-10-07 11:57:49,040 [INFO] Starting data fetching process.
+2024-10-07 11:57:49,040 [INFO] Fetching SMA for SPY from Alpha Vantage
+2024-10-07 11:57:50,608 [INFO] Saved SMA data to data\raw\alpha_vantage\SPY_SMA.csv
+2024-10-07 11:58:02,609 [INFO] Fetching EMA for SPY from Alpha Vantage
+2024-10-07 11:58:03,840 [INFO] Saved EMA data to data\raw\alpha_vantage\SPY_EMA.csv
+2024-10-07 11:58:15,842 [INFO] Fetching RSI for SPY from Alpha Vantage
+2024-10-07 11:58:17,020 [INFO] Saved RSI data to data\raw\alpha_vantage\SPY_RSI.csv
+2024-10-07 11:58:29,022 [INFO] Fetching ADX for SPY from Alpha Vantage
+2024-10-07 11:58:30,039 [INFO] Saved ADX data to data\raw\alpha_vantage\SPY_ADX.csv
+2024-10-07 11:58:42,040 [INFO] Fetching SMA for QQQ from Alpha Vantage
+2024-10-07 11:58:43,218 [INFO] Saved SMA data to data\raw\alpha_vantage\QQQ_SMA.csv
+2024-10-07 11:58:55,220 [INFO] Fetching EMA for QQQ from Alpha Vantage
+2024-10-07 11:58:56,320 [INFO] Saved EMA data to data\raw\alpha_vantage\QQQ_EMA.csv
+2024-10-07 11:59:08,321 [INFO] Fetching RSI for QQQ from Alpha Vantage
+2024-10-07 11:59:09,567 [INFO] Saved RSI data to data\raw\alpha_vantage\QQQ_RSI.csv
+2024-10-07 11:59:21,568 [INFO] Fetching ADX for QQQ from Alpha Vantage
+2024-10-07 11:59:22,599 [INFO] Saved ADX data to data\raw\alpha_vantage\QQQ_ADX.csv
+2024-10-07 11:59:34,600 [INFO] Fetching SMA for XLK from Alpha Vantage
+2024-10-07 11:59:35,833 [INFO] Saved SMA data to data\raw\alpha_vantage\XLK_SMA.csv
+2024-10-07 11:59:47,835 [INFO] Fetching EMA for XLK from Alpha Vantage
+2024-10-07 11:59:48,888 [INFO] Saved EMA data to data\raw\alpha_vantage\XLK_EMA.csv
+2024-10-07 12:00:00,889 [INFO] Fetching RSI for XLK from Alpha Vantage
+2024-10-07 12:00:03,246 [INFO] Saved RSI data to data\raw\alpha_vantage\XLK_RSI.csv
+2024-10-07 12:00:15,247 [INFO] Fetching ADX for XLK from Alpha Vantage
+2024-10-07 12:00:16,372 [INFO] Saved ADX data to data\raw\alpha_vantage\XLK_ADX.csv
+2024-10-07 12:00:28,373 [INFO] Fetching SMA for XLV from Alpha Vantage
+2024-10-07 12:00:29,311 [INFO] Saved SMA data to data\raw\alpha_vantage\XLV_SMA.csv
+2024-10-07 12:00:41,313 [INFO] Fetching EMA for XLV from Alpha Vantage
+2024-10-07 12:00:42,303 [INFO] Saved EMA data to data\raw\alpha_vantage\XLV_EMA.csv
+2024-10-07 12:00:54,304 [INFO] Fetching RSI for XLV from Alpha Vantage
+2024-10-07 12:00:55,383 [INFO] Saved RSI data to data\raw\alpha_vantage\XLV_RSI.csv
+2024-10-07 12:01:07,385 [INFO] Fetching ADX for XLV from Alpha Vantage
+2024-10-07 12:01:08,355 [INFO] Saved ADX data to data\raw\alpha_vantage\XLV_ADX.csv
+2024-10-07 12:01:20,356 [INFO] Fetching SMA for XLF from Alpha Vantage
+2024-10-07 12:01:21,349 [INFO] Saved SMA data to data\raw\alpha_vantage\XLF_SMA.csv
+2024-10-07 12:01:33,350 [INFO] Fetching EMA for XLF from Alpha Vantage
+2024-10-07 12:01:34,296 [INFO] Saved EMA data to data\raw\alpha_vantage\XLF_EMA.csv
+2024-10-07 12:01:46,297 [INFO] Fetching RSI for XLF from Alpha Vantage
+2024-10-07 12:01:47,460 [INFO] Saved RSI data to data\raw\alpha_vantage\XLF_RSI.csv
+2024-10-07 12:01:59,462 [INFO] Fetching ADX for XLF from Alpha Vantage
+2024-10-07 12:02:00,386 [INFO] Saved ADX data to data\raw\alpha_vantage\XLF_ADX.csv
+2024-10-07 12:02:12,388 [INFO] Data fetching process completed.
