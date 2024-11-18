@@ -3,6 +3,7 @@ from stable_baselines3 import PPO
 from stable_baselines3.common.vec_env import SubprocVecEnv, VecNormalize
 from stable_baselines3.common.callbacks import BaseCallback
 from env import PortfolioEnv
+import pandas as pd
 
 def make_env(rank, data_path, window_size, rebalance_frequency, additional_features=True):
     """
@@ -28,6 +29,14 @@ def main():
     DATA_PATH = 'data/processed/merged_data.csv'
     WINDOW_SIZE = 365
     REBALANCE_FREQUENCY = 'monthly'
+    
+    # Load the merged data
+    merged_data = pd.read_csv(DATA_PATH, parse_dates=['Date'])
+    merged_data.sort_values('Date', inplace=True)
+    merged_data.reset_index(drop=True, inplace=True)
+
+    # Print the date range to debug
+    print("Date range in merged data:", merged_data['Date'].min(), "to", merged_data['Date'].max())
     
     # GPU settings
     device = torch.device("cuda")

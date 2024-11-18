@@ -251,6 +251,11 @@ class PortfolioEnv(gym.Env):
         """
         # Store old weights for turnover calculation
         old_weights = self.current_weights.copy()
+
+        # Add debug print
+        current_date = self.raw_data.index[self.current_step]
+        next_date = self.raw_data.index[self.current_step + 1]
+        print(f"Step from {current_date} to {next_date}")
         
         # Only update weights if it's time to rebalance
         if self.current_step >= self.next_rebalance_step:
@@ -321,6 +326,11 @@ class PortfolioEnv(gym.Env):
         
         # Ensure we have enough data for initial window
         self.current_step = self.window_size
+
+        # Add debug print
+        current_date = self.raw_data.index[self.current_step]
+        print(f"Environment reset - Starting at date: {current_date}")
+
         self.portfolio_value = self.initial_balance
         self.returns_memory = []
         self.weights_memory = []
