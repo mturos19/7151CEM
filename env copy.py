@@ -30,7 +30,7 @@ class PortfolioEnv(gym.Env):
         additional_features: bool = True
     ):        
         super(PortfolioEnv, self).__init__()
-        
+    
         # load and preprocess data
         self.raw_data = pd.read_csv(data_path)
         self.raw_data['Date'] = pd.to_datetime(self.raw_data['Date'])
@@ -69,7 +69,7 @@ class PortfolioEnv(gym.Env):
         
         # precompute portfolio returns
         self.returns_data = self.raw_data[self.assets].pct_change().fillna(0)
-        self.asset_cov = self.returns_data.cov().values
+        self.asset_cov = self.returns_data.cov()
         
         # process macroeconomic features
         self.processed_features = self._process_features()
@@ -102,7 +102,6 @@ class PortfolioEnv(gym.Env):
         
         # initialize state
         self.reset()
-    
     
     def _process_features(self) -> pd.DataFrame:
         """
@@ -171,10 +170,11 @@ class PortfolioEnv(gym.Env):
         """
         construct the observation (state) from the current position using a rolling window of macro features.
         """
-        end_idx = self.current_step + 1
+        end_idx = self.current_step + 1  # inclusive of current_step
         start_idx = end_idx - self.window_size
         
         if start_idx < 0:
+            # pad with zeros if not enough data
             pad_length = abs(start_idx)
             window_features = self.processed_features.iloc[0:end_idx].values
             padding = np.zeros((pad_length, self.processed_features.shape[1]))
@@ -183,7 +183,7 @@ class PortfolioEnv(gym.Env):
             window_features = self.processed_features.iloc[start_idx:end_idx].values
             observation = window_features
         
-        return observation.astype(np.float32)
+        return observation
     
     def _calculate_portfolio_metrics(
         self, 
@@ -193,24 +193,19 @@ class PortfolioEnv(gym.Env):
         """
         calculate portfolio return, volatility, and cvar using historical simulation.
         """
-        # Ensure inputs are numpy arrays
-        weights = np.array(weights)
-        returns = np.array(returns)
-        
-        # Numpy operations
-        weights = np.clip(weights, a_min=0, a_max=None)
-        weights_sum = weights.sum()
+        # ensure weights sum to 1 and are non-negative
+        weights = np.maximum(weights, 0)
+        weights_sum = np.sum(weights)
         if weights_sum > 0:
             weights = weights / weights_sum
             
-        portfolio_return = (returns * weights).sum()
-        portfolio_vol = np.sqrt(np.maximum(
-            weights.dot(self.asset_cov).dot(weights),
-            1e-10
-        ))
+        portfolio_return = np.sum(returns * weights)
         
-        # Calculate CVaR
-        portfolio_returns = self.returns_data.values @ weights
+        # add small constant to avoid numerical issues
+        portfolio_vol = np.sqrt(np.maximum(weights.T @ self.asset_cov @ weights, 1e-10))
+        
+        # historical simulation for cvar with error handling
+        portfolio_returns = self.returns_data.dot(weights)
         if len(portfolio_returns) > 0:
             sorted_returns = np.sort(portfolio_returns)
             index = max(1, int(self.cvar_alpha * len(sorted_returns)))
@@ -248,78 +243,90 @@ class PortfolioEnv(gym.Env):
     def step(self, action: np.ndarray) -> Tuple[np.ndarray, float, bool, bool, Dict]:
         """
         Execute one step in the environment.
+        Returns:
+            Tuple: (observation, reward, terminated, truncated, info)
         """
         # Store old weights for turnover calculation
-        old_weights = self.current_weights.copy()
+        old_weights = self.current_weights.copy() if self.current_weights is not None else np.zeros(self.num_assets)
         
         # Only update weights if it's time to rebalance
         if self.current_step >= self.next_rebalance_step:
-            # Ensure action is valid and normalized
-            action = np.clip(action, a_min=0, a_max=None)  # Ensure non-negative
-            action_sum = action.sum()
-            if action_sum > 0:
-                self.current_weights = action / action_sum
-            else:
-                self.current_weights = np.ones(self.num_assets) / self.num_assets
+            # Normalize action to ensure weights sum to 1
+            self.current_weights = action / np.sum(action)
             self.next_rebalance_step = self.current_step + self.steps_per_rebalance
         
         # Move forward one step
         self.current_step += 1
-        
-        # Check if we've reached the end of our data
         done = self.current_step >= len(self.raw_data) - 1
         
         # Get daily returns for the current step
-        daily_returns = self.returns_data.iloc[self.current_step].values
+        daily_returns = self.returns_data.iloc[self.current_step]
         
-        # Calculate portfolio return
+        # Calculate portfolio return and metrics
         portfolio_return = np.sum(self.current_weights * daily_returns)
+        portfolio_vol = np.sqrt(np.dot(self.current_weights.T, np.dot(self.asset_cov, self.current_weights)))
+        
+        # Calculate CVaR (Conditional Value at Risk)
+        z_score = norm.ppf(self.cvar_alpha)
+        cvar = -1 * (portfolio_return - portfolio_vol * z_score)
         
         # Update portfolio value
         self.portfolio_value *= (1 + portfolio_return)
         
-        # Calculate reward
-        reward = self._calculate_reward(old_weights, self.current_weights)
+        # Calculate reward (you can modify this based on your objectives)
+        reward = portfolio_return - self.trading_cost * np.sum(np.abs(self.current_weights - old_weights))
         
         # Get new observation
         observation = self._get_observation()
         
         # Store history
-        self.returns_memory.append(portfolio_return)
-        self.weights_memory.append(self.current_weights.copy())
+        if self.returns_memory is None:
+            self.returns_memory = [reward]
+            self.weights_memory = [self.current_weights]
+        else:
+            self.returns_memory.append(reward)
+            self.weights_memory.append(self.current_weights)
         
         # Additional info
         info = {
             'portfolio_value': self.portfolio_value,
-            'weights': self.current_weights.copy(),
-            'returns': portfolio_return,
+            'weights': self.current_weights,
             'step': self.current_step,
+            'returns': reward,
+            'turnover': np.sum(np.abs(self.current_weights - old_weights)) if self.current_step >= self.steps_per_rebalance else 0.0,
+            'portfolio_return': portfolio_return,
+            'portfolio_volatility': portfolio_vol,
+            'cvar': cvar
         }
         
-        # Early stopping only after sufficient history
-        if self.current_step > self.window_size + 30:
-            peak = max([self.initial_balance] + 
-                      [self.initial_balance * np.prod(1 + np.array(self.returns_memory[:i])) 
-                       for i in range(len(self.returns_memory))])
-            drawdown = (peak - self.portfolio_value) / peak
-            
-            if drawdown > 0.5:  # 50% max drawdown
-                done = True
-                info['early_stop'] = 'max_drawdown'
+        # Early stopping conditions
+        target_return = 1.2 * self.initial_balance
+        max_allowed_drawdown = 0.8
         
-        # Convert observation to numpy before returning
-        if isinstance(observation, np.ndarray):
-            observation = observation.astype(np.float32)
+        # Calculate current drawdown
+        peak = max(self.portfolio_value, self.initial_balance)
+        drawdown = (peak - self.portfolio_value) / peak
         
-        return observation, reward, done, False, info
+        if self.portfolio_value >= target_return or drawdown >= max_allowed_drawdown:
+            done = True
+            info['early_stop'] = {
+                'reason': 'target_return_reached' if self.portfolio_value >= target_return else 'max_drawdown_exceeded'
+            }
+        
+        # Split 'done' into terminated and truncated
+        terminated = done  # Your existing done logic
+        truncated = False  # Add truncation logic if needed
+        
+        # Changed to match gymnasium API: must return 5 values instead of 4
+        return observation, reward, terminated, truncated, info
     
     def reset(self, seed=None, options=None):
         """
         Reset the environment to initial state.
         """
+        # Changed to match gymnasium API
         super().reset(seed=seed)
         
-        # Ensure we have enough data for initial window
         self.current_step = self.window_size
         self.portfolio_value = self.initial_balance
         self.returns_memory = []
@@ -327,15 +334,16 @@ class PortfolioEnv(gym.Env):
         
         # Initialize with equal weights
         self.current_weights = np.ones(self.num_assets) / self.num_assets
-        self.next_rebalance_step = self.current_step + self.steps_per_rebalance
+        self.next_rebalance_step = self.steps_per_rebalance
         
-        # Create info dict
+        # Create info dict with initial state information
         info = {
             'initial_portfolio_value': self.initial_balance,
             'initial_weights': self.current_weights.copy(),
             'num_assets': self.num_assets
         }
         
+        # Changed to match gymnasium API: must return (observation, info)
         return self._get_observation(), info
     
     def render(self, mode='human'):
