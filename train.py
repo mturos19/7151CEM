@@ -63,25 +63,25 @@ def main():
     
     # initialize ppo with optimized parameters
     model = PPO(
-        "MlpPolicy",
-        env,
-        n_steps=2048,
-        batch_size=512,             
-        n_epochs=10,
-        learning_rate=3e-4,
-        gamma=0.99,
-        gae_lambda=0.95,
-        clip_range=0.2,
-        clip_range_vf=0.2,
-        ent_coef=0.005,
-        vf_coef=0.5,
-        max_grad_norm=0.5,
-        use_sde=False,
-        #sde_sample_freq=8,
-        policy_kwargs=policy_kwargs,
-        tensorboard_log="./logs/",
-        verbose=1,
-        device=device
+    "MlpPolicy",
+    env,
+    n_steps=2048,        # number of steps to run for each environment per update
+    batch_size=512,      # minibatch size for each gradient update
+    n_epochs=10,         # number of times to reuse each collected trajectory
+    learning_rate=3e-4,  # standard learning rate for Adam optimizer
+    gamma=0.99,          # discount factor for future rewards
+    gae_lambda=0.95,     # factor for Generalized Advantage Estimation
+    clip_range=0.2,      # PPO clipping parameter
+    clip_range_vf=0.2,   # value function clipping parameter
+    ent_coef=0.005,      # entropy coefficient for exploration
+    vf_coef=0.5,         # value function coefficient in loss
+    max_grad_norm=0.5,   # gradient clipping threshold
+    use_sde=False,
+    #sde_sample_freq=8,
+    policy_kwargs=policy_kwargs,
+    tensorboard_log="./logs/",
+    verbose=1,
+    device=device
     )
     
     # verify model device
@@ -109,14 +109,14 @@ def main():
     try:
         # train with larger number of steps and gpu monitoring
         model.learn(
-            total_timesteps=10_000,
+            total_timesteps=100_000,
             callback=[GPUMonitorCallback()],
             progress_bar=True
         )
         
         # save the model and VecNormalize
-        model.save("models/final_model_10k")
-        env.save("models/vec_normalize_10k.pkl")
+        model.save("models/final_model_100k")
+        env.save("models/vec_normalize_100k.pkl")
         
     except Exception as e:
         print(f"Error during training: {str(e)}")
