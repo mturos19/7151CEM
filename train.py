@@ -7,7 +7,7 @@ import pandas as pd
 
 def make_env(rank, data_path, window_size, rebalance_frequency, additional_features=True):
     """
-    Utility function for multiprocessed env.
+    utility function for multiprocessed env.
     """
     def _init():
         env = PortfolioEnv(
@@ -25,35 +25,35 @@ def make_env(rank, data_path, window_size, rebalance_frequency, additional_featu
     return _init
 
 def main():
-    # Configuration
+    # configuration
     DATA_PATH = 'data/processed/merged_data.csv'
     WINDOW_SIZE = 365
     REBALANCE_FREQUENCY = 'monthly'
     
-    # Load the merged data
+    # load the merged data
     merged_data = pd.read_csv(DATA_PATH, parse_dates=['Date'])
     merged_data.sort_values('Date', inplace=True)
     merged_data.reset_index(drop=True, inplace=True)
 
-    # Print the date range to debug
+    # print the date range to debug
     print("Date range in merged data:", merged_data['Date'].min(), "to", merged_data['Date'].max())
     
-    # GPU settings
+    # gpu settings
     device = torch.device("cuda")
     print(f"Using device: {device}")
     print(f"GPU: {torch.cuda.get_device_name()}")
     
-    # Number of parallel environments (adjust based on your GPU memory)
-    n_envs = 4  # Ensure this matches during analysis
+    # number of parallel environments (adjust based on your gpu memory)
+    n_envs = 4  # ensure this matches during analysis
     
-    # Create vectorized environment
+    # create vectorized environment
     env = SubprocVecEnv([make_env(i, DATA_PATH, WINDOW_SIZE, REBALANCE_FREQUENCY) 
                          for i in range(n_envs)])
     
-    # Normalize the environment
+    # normalize the environment
     env = VecNormalize(env, norm_obs=True, norm_reward=False, clip_obs=10.)
 
-    # Optimize policy network architecture for GPU
+    # optimize policy network architecture for gpu
     policy_kwargs = dict(
         net_arch=[dict(pi=[256, 256], vf=[256, 256])],
         activation_fn=torch.nn.ReLU,
@@ -61,12 +61,12 @@ def main():
         optimizer_kwargs=dict(eps=1e-5)
     )
     
-    # Initialize PPO with optimized parameters
+    # initialize ppo with optimized parameters
     model = PPO(
         "MlpPolicy",
         env,
-        n_steps=4096,                # Increased batch size
-        batch_size=2048,             # Larger batch size for GPU
+        n_steps=2048,
+        batch_size=512,             
         n_epochs=10,
         learning_rate=3e-4,
         gamma=0.99,
@@ -76,42 +76,47 @@ def main():
         ent_coef=0.005,
         vf_coef=0.5,
         max_grad_norm=0.5,
-        use_sde=True,
-        sde_sample_freq=4,
+        use_sde=False,
+        #sde_sample_freq=8,
         policy_kwargs=policy_kwargs,
         tensorboard_log="./logs/",
         verbose=1,
         device=device
     )
     
-    # Verify model device
+    # verify model device
     print(f"Model device: {next(model.policy.parameters()).device}")
     
-    # Custom callback for GPU memory monitoring
+    # custom callback for gpu memory monitoring
     class GPUMonitorCallback(BaseCallback):
         def __init__(self, verbose=0):
             super(GPUMonitorCallback, self).__init__(verbose)
             self.iteration = 0
         
         def _on_step(self):
-            if self.iteration % 100 == 0:  # Monitor every 100 steps
+            if self.iteration % 100 == 0:  # monitor every 100 steps
                 print(f"\nGPU Utilization:")
                 print(f"Memory Allocated: {torch.cuda.memory_allocated(0)/1024**2:.2f}MB")
                 print(f"Memory Reserved: {torch.cuda.memory_reserved(0)/1024**2:.2f}MB")
+                
+                # add periodic memory clearing
+                if self.iteration % 1000 == 0:
+                    torch.cuda.empty_cache()
+                
             self.iteration += 1
             return True
     
     try:
-        # Train with larger number of steps and GPU monitoring
+        # train with larger number of steps and gpu monitoring
         model.learn(
             total_timesteps=10_000,
             callback=[GPUMonitorCallback()],
             progress_bar=True
         )
         
-        # Save the model and VecNormalize
-        model.save("models/final_model")
-        env.save("models/vec_normalize.pkl")
+        # save the model and VecNormalize
+        model.save("models/final_model_10k")
+        env.save("models/vec_normalize_10k.pkl")
         
     except Exception as e:
         print(f"Error during training: {str(e)}")

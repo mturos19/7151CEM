@@ -26,13 +26,13 @@ def make_env(data_path, window_size, rebalance_frequency, additional_features, r
         return env
     return _init
 
-def analyze_model_performance(model_path="models/final_model",
-                              vec_normalize_path="models/vec_normalize.pkl",
+def analyze_model_performance(model_path="models/final_model_100k",
+                              vec_normalize_path="models/vec_normalize_100k.pkl",
                               data_path='data/processed/merged_data.csv'):
     """
     Analyze the trained model's performance against the S&P 500.
     """
-    # Load the environment
+    # load the environment
     window_size = 365
     rebalance_frequency = 'monthly'
     additional_features = True
@@ -40,23 +40,24 @@ def analyze_model_performance(model_path="models/final_model",
 
     env = SubprocVecEnv([make_env(data_path, window_size, rebalance_frequency, additional_features, rank=i) for i in range(n_envs)])
     
-    # Load the VecNormalize statistics
+    # load VecNormalize statistics
     vec_normalize = VecNormalize.load(vec_normalize_path, env)
     
-    # Do not update the normalization statistics
+    # stopping the update of normalization statistics
     vec_normalize.training = False
     vec_normalize.norm_reward = False
     
-    # Load the trained model
+    # load model
     model = PPO.load(model_path, env=env)
     
-    # Reset the environment
+    # environment reset
     obs = env.reset()
     
-    # Load the merged data
+    # load data
     merged_data = pd.read_csv(data_path, parse_dates=['Date'])
     merged_data.sort_values('Date', inplace=True)
     merged_data.reset_index(drop=True, inplace=True)
+   # merged_data = merged_data[merged_data['Date'] <= '2011-01-01']
 
     #print("Date range in merged data:", merged_data['Date'].min(), "to", merged_data['Date'].max())
     
@@ -65,49 +66,121 @@ def analyze_model_performance(model_path="models/final_model",
     asset_weights = []
     dates = []
     
-    # Add these diagnostic prints
-    print("Starting analysis from", merged_data['Date'].min(), "to", merged_data['Date'].max())
+    # diagnostic prints
+    #print("Starting analysis from", merged_data['Date'].min(), "to", merged_data['Date'].max())
     
     done = False
     obs = env.reset()
+    
+    # scaling factor to maintain continuity
+    scale_factor = 1.0
+    last_portfolio_value = None
     
     for i in range(len(merged_data)):
         action, _states = model.predict(obs, deterministic=True)
         obs, rewards, dones, info = env.step(action)
         
-        # Get the portfolio value and other data regardless of done status
+        # current portfolio value
         portfolio_value = env.get_attr('portfolio_value')[0]
-        portfolio_values.append(portfolio_value)
+        
+        # handle environment reset
+        if dones[0]:
+            print(f"Environment reset at index {i}, date {merged_data.loc[i, 'Date']}")
+            obs = env.reset()
+            
+            # updating scale factor to maintain continuity
+            if last_portfolio_value is not None:
+                scale_factor *= last_portfolio_value / 1000000  # Assuming initial_balance is 1000000
+            continue
+        
+        # scaling the value to maintain continuity
+        scaled_portfolio_value = portfolio_value * scale_factor
+        last_portfolio_value = scaled_portfolio_value
+        
+        date = merged_data.loc[i, 'Date']
+        dates.append(date)
+        portfolio_values.append(scaled_portfolio_value)
         
         sp500 = merged_data.loc[i, '^GSPC_Close']
         sp500_values.append(sp500)
         
         weights = env.get_attr('current_weights')[0]
         asset_weights.append(weights)
-        
-        date = merged_data.loc[i, 'Date']
-        dates.append(date)
-        
-        # If done, reset the environment but continue the loop
-        if dones[0]:
-            print(f"Episode done at date {date}, resetting environment")
-            obs = env.reset()
     
-    # Add diagnostic print
-    print(f"Collected {len(portfolio_values)} portfolio values from {dates[0]} to {dates[-1]}")
+    # debug print
+    #print(f"Collected {len(portfolio_values)} portfolio values from {dates[0]} to {dates[-1]}")
     
-    # Convert to pandas Series
     portfolio_series = pd.Series(portfolio_values, index=dates)
     sp500_series = pd.Series(sp500_values, index=dates)
     
-    # Calculate cumulative returns
+    # cumulative returns
     portfolio_returns = portfolio_series.pct_change().fillna(0)
     sp500_returns = sp500_series.pct_change().fillna(0)
     
     cumulative_portfolio = (1 + portfolio_returns).cumprod()
     cumulative_sp500 = (1 + sp500_returns).cumprod()
     
-    # Plot the results
+    # performance metrics
+    def calculate_metrics(returns, benchmark_returns, risk_free_rate=0.02):
+        # total profit
+        total_return = (cumulative_portfolio.iloc[-1] - 1) * 100
+        
+        # monthly returns for best/worst month calculation
+        monthly_returns = returns.resample('ME').agg(lambda x: (1 + x).prod() - 1) * 100
+        
+        # Win Rate calculation (monthly basis)
+        win_rate = (monthly_returns > 0).mean() * 100
+        
+        # other metrics
+        annual_returns = ((1 + returns.mean()) ** 252 - 1) * 100
+        annual_vol = returns.std() * np.sqrt(252) * 100
+        
+        # Sharpe & Sortino
+        excess_returns = returns - risk_free_rate/252
+        sharpe_ratio = (np.sqrt(252) * excess_returns.mean() / returns.std()) * 100
+        
+        downside_returns = returns[returns < 0]
+        downside_std = downside_returns.std() * np.sqrt(252)
+        sortino_ratio = ((annual_returns/100 - risk_free_rate) / downside_std) * 100 if downside_std != 0 else np.nan
+        
+        # Maximum Drawdown
+        cum_returns = (1 + returns).cumprod()
+        rolling_max = cum_returns.expanding().max()
+        drawdowns = (cum_returns/rolling_max - 1) * 100
+        max_drawdown = drawdowns.min()
+        
+        return {
+            'Total Portfolio Profit': total_return,
+            'Annual Return': annual_returns,
+            'Annual Volatility': annual_vol,
+            'Sharpe Ratio': sharpe_ratio,
+            'Sortino Ratio': sortino_ratio,
+            'Max Drawdown': max_drawdown,
+            'Win Rate': win_rate,
+            'Best Month': monthly_returns.max(),
+            'Worst Month': monthly_returns.min()
+        }
+    
+    # calculate metrics
+    metrics = calculate_metrics(portfolio_returns, sp500_returns)
+    
+    # financial metrics
+    print(f"\nTotal Portfolio Profit: {metrics['Total Portfolio Profit']:.2f}%")
+    print("\nML-Enhanced Portfolio Metrics:")
+    print("----------")
+    print(f"Annual Return       : {metrics['Annual Return']:>10.2f}%")
+    print(f"Annual Volatility   : {metrics['Annual Volatility']:>10.2f}%")
+    print(f"Sharpe Ratio        : {metrics['Sharpe Ratio']:>10.2f}%")
+    print(f"Sortino Ratio       : {metrics['Sortino Ratio']:>10.2f}%")
+    print(f"Max Drawdown        : {metrics['Max Drawdown']:>10.2f}%")
+    print(f"Win Rate            : {metrics['Win Rate']:>10.2f}%")
+    print(f"Best Month          : {metrics['Best Month']:>10.2f}%")
+    print(f"Worst Month         : {metrics['Worst Month']:>10.2f}%")
+    
+    metrics_df = pd.DataFrame([metrics])
+    metrics_df.to_csv('portfolio_metrics.csv', index=False)
+    
+    # return graph 
     plt.figure(figsize=(12, 6))
     plt.plot(cumulative_portfolio, label='Portfolio Returns')
     plt.plot(cumulative_sp500, label='S&P 500 Returns')
@@ -117,44 +190,47 @@ def analyze_model_performance(model_path="models/final_model",
     plt.legend()
     plt.grid(True)
     plt.tight_layout()
-    plt.savefig('portfolio_vs_sp500_returns.png')
+    plt.savefig('portfolio_vs_sp500_returns_100k.png')
     plt.show()
 
-    # Visualization of asset weights over time
+    # asset weights over time
     asset_weights = np.array(asset_weights)
-    num_assets = asset_weights.shape[1]
     
-    # Grouping assets into classes based on the provided data
     asset_classes = {
-        'Equities': [0, 1, 2, 3, 4, 5, 6, 7, 8],  # Stock indices
-        'Bonds': [9, 10, 11, 12],                  # Bond indices
-        'Commodities': [13, 14, 15, 16],           # Commodities like Gold, Oil
-        'Real Estate': [17, 18],                   # Real estate indices
-        'Currencies': [19, 20, 21, 22],            # Currency pairs
-        'Crypto': [23, 24],                        # Bitcoin, ETH (removed LTC)
-        # Indices 25-28 are macro indicators (Interest rate, GDP, CPI etc)
+        'us_large_cap': [4, 5],  # SPY_Close, QQQ_Close
+        'us_tech': [0, 1, 2, 3],  # MSFT_Close, AMZN_Close, GOOGL_Close, TSLA_Close
+        'commodities': [16, 17, 18],  # GC=F_Close, CL=F_Close, SI=F_Close
+        'real_estate': [19, 20, 21],  # VNQ_Close, SCHH_Close, IYR_Close
+        'crypto_major': [22, 23],  # BTC_Close, ETH_Close
+        'crypto_alt': [24]  # LTC_Close
     }
     
-    # Summing weights by asset class
+    # summing weights by asset class
     class_weights = {class_name: asset_weights[:, indices].sum(axis=1) for class_name, indices in asset_classes.items()}
     
-    # Plotting asset class weights
-    plt.figure(figsize=(12, 6))
-    for class_name, weights in class_weights.items():
-        plt.plot(dates, weights, label=f'{class_name} Weight')
+    # DataFrame for stacked area plot
+    df_weights = pd.DataFrame(index=dates)
+    for class_name, indices in asset_classes.items():
+        df_weights[class_name] = asset_weights[:, indices].sum(axis=1)
+    df_weights = df_weights.div(df_weights.sum(axis=1), axis=0)
+
+    
+    # stacked area plot
+    plt.figure(figsize=(15, 8))
+    df_weights.plot(kind='area', stacked=True, colormap='viridis')
+    plt.title('Portfolio Asset Allocation Over Time')
     plt.xlabel('Date')
-    plt.ylabel('Asset Class Weights')
-    plt.title('Asset Class Weights Over Time')
-    plt.legend()
-    plt.grid(True)
+    plt.ylabel('Allocation Percentage')
+    plt.legend(title='Asset Classes', bbox_to_anchor=(1.05, 1), loc='upper left')
+    plt.grid(True, alpha=0.3)
     plt.tight_layout()
-    plt.savefig('asset_class_weights_over_time.png')
+    plt.savefig('asset_allocation_over_time_100k.png', bbox_inches='tight')
     plt.show()
 
-    # Pie chart animation of asset class weights (monthly)
+    # pie chart animation of asset class weights (monthly)
     fig, ax = plt.subplots(figsize=(8, 8))
 
-    # Convert dates to pandas datetime and get monthly data
+    # convert dates to pandas datetime and get monthly data
     dates_pd = pd.to_datetime(dates)
     monthly_dates = dates_pd.to_period('M').unique()
     print("Asset weights shape:", asset_weights.shape)
@@ -167,10 +243,8 @@ def analyze_model_performance(model_path="models/final_model",
         ax.pie(weights, labels=list(class_weights.keys()), autopct='%1.1f%%')
         ax.set_title(f'Asset Class Weights on {month_end.strftime("%Y-%m-%d")}')
 
-    ani = FuncAnimation(fig, update, frames=len(monthly_dates), repeat=False)
-    ani.save('asset_class_weights_animation.gif', writer='pillow')
-    
-    
+    ani = FuncAnimation(fig, update, frames=len(monthly_dates), interval=2000, repeat=False)
+    ani.save('asset_class_weights_animation_100k.gif', writer='pillow')
     
 if __name__ == "__main__":
     analyze_model_performance()

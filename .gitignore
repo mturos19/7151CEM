@@ -1,2 +1,4 @@
 .env
-models/final_model.zip
+models/final_model_10k.zip
+models/final_model_100k.zip
+

@@ -90,7 +90,7 @@ class PortfolioEnv(gym.Env):
             dtype=np.float32
         )
         
-        # Debug obs space
+        # debug obs space
         print(f"Observation Space Shape: {self.observation_space.shape}")
         
         # trading variables
@@ -108,31 +108,31 @@ class PortfolioEnv(gym.Env):
         """
         process macroeconomic and technical features into a dataframe using rolling windows for observations.
         """
-        # Extract macroeconomic features
+        # extract macroeconomic features
         features = self.raw_data[self.macro_features].copy()
         
-        # Handle missing values using updated methods
+        # handle missing values using updated methods
         features = features.ffill().bfill()
         
-        # Normalize macroeconomic features
+        # normalize macroeconomic features
         normalized_macro = (features - features.mean()) / (features.std() + 1e-8)
         
         if self.additional_features:
-            # Create separate DataFrames for each asset's indicators
+            # create separate dataframes for each asset's indicators
             asset_features = []
             
             for asset in self.assets:
-                # Calculate all indicators for this asset
+                # calculate all indicators for this asset
                 indicators = {}
                 
-                # Momentum Indicators
+                # momentum indicators
                 rsi = RSIIndicator(close=self.raw_data[asset], window=14)
                 sma20 = SMAIndicator(close=self.raw_data[asset], window=20)
                 sma50 = SMAIndicator(close=self.raw_data[asset], window=50)
                 bb = BollingerBands(close=self.raw_data[asset], window=20, window_dev=2)
                 macd = MACD(close=self.raw_data[asset])
                 
-                # Store all indicators in dictionary
+                # store all indicators in dictionary
                 indicators.update({
                     f'{asset}_RSI': rsi.rsi(),
                     f'{asset}_SMA_20': sma20.sma_indicator(),
@@ -144,21 +144,21 @@ class PortfolioEnv(gym.Env):
                     f'{asset}_MACD_Diff': macd.macd_diff()
                 })
                 
-                # Convert dictionary to DataFrame
+                # convert dictionary to dataframe
                 asset_df = pd.DataFrame(indicators)
                 asset_features.append(asset_df)
                 
             
-            # Combine all technical features at once
+            # combine all technical features at once
             technical_features = pd.concat(asset_features, axis=1)
             
-            # Handle missing values
+            # handle missing values
             technical_features = technical_features.ffill().bfill()
             
-            # Normalize technical features
+            # normalize technical features
             normalized_technical = (technical_features - technical_features.mean()) / (technical_features.std() + 1e-8)
             
-            # Combine macroeconomic and technical features
+            # combine macroeconomic and technical features
             combined_features = pd.concat([normalized_macro, normalized_technical], axis=1)
         else:
             combined_features = normalized_macro
@@ -193,11 +193,11 @@ class PortfolioEnv(gym.Env):
         """
         calculate portfolio return, volatility, and cvar using historical simulation.
         """
-        # Ensure inputs are numpy arrays
+        # ensure inputs are numpy arrays
         weights = np.array(weights)
         returns = np.array(returns)
         
-        # Numpy operations
+        # numpy operations
         weights = np.clip(weights, a_min=0, a_max=None)
         weights_sum = weights.sum()
         if weights_sum > 0:
@@ -209,7 +209,7 @@ class PortfolioEnv(gym.Env):
             1e-10
         ))
         
-        # Calculate CVaR
+        # calculate cvar
         portfolio_returns = self.returns_data.values @ weights
         if len(portfolio_returns) > 0:
             sorted_returns = np.sort(portfolio_returns)
@@ -247,20 +247,20 @@ class PortfolioEnv(gym.Env):
     
     def step(self, action: np.ndarray) -> Tuple[np.ndarray, float, bool, bool, Dict]:
         """
-        Execute one step in the environment.
+        execute one step in the environment.
         """
-        # Store old weights for turnover calculation
+        # store old weights for turnover calculation
         old_weights = self.current_weights.copy()
 
-        # Add debug print
+        # add debug print
         current_date = self.raw_data.index[self.current_step]
         next_date = self.raw_data.index[self.current_step + 1]
-        print(f"Step from {current_date} to {next_date}")
+        #print(f"Step from {current_date} to {next_date}")
         
-        # Only update weights if it's time to rebalance
+        # only update weights if it's time to rebalance
         if self.current_step >= self.next_rebalance_step:
-            # Ensure action is valid and normalized
-            action = np.clip(action, a_min=0, a_max=None)  # Ensure non-negative
+            # ensure action is valid and normalized
+            action = np.clip(action, a_min=0, a_max=None)  # ensure non-negative
             action_sum = action.sum()
             if action_sum > 0:
                 self.current_weights = action / action_sum
@@ -268,32 +268,32 @@ class PortfolioEnv(gym.Env):
                 self.current_weights = np.ones(self.num_assets) / self.num_assets
             self.next_rebalance_step = self.current_step + self.steps_per_rebalance
         
-        # Move forward one step
+        # move forward one step
         self.current_step += 1
         
-        # Check if we've reached the end of our data
+        # check if we've reached the end of our data
         done = self.current_step >= len(self.raw_data) - 1
         
-        # Get daily returns for the current step
+        # get daily returns for the current step
         daily_returns = self.returns_data.iloc[self.current_step].values
         
-        # Calculate portfolio return
+        # calculate portfolio return
         portfolio_return = np.sum(self.current_weights * daily_returns)
         
-        # Update portfolio value
+        # update portfolio value
         self.portfolio_value *= (1 + portfolio_return)
         
-        # Calculate reward
+        # calculate reward
         reward = self._calculate_reward(old_weights, self.current_weights)
         
-        # Get new observation
+        # get new observation
         observation = self._get_observation()
         
-        # Store history
+        # store history
         self.returns_memory.append(portfolio_return)
         self.weights_memory.append(self.current_weights.copy())
         
-        # Additional info
+        # additional info
         info = {
             'portfolio_value': self.portfolio_value,
             'weights': self.current_weights.copy(),
@@ -301,7 +301,7 @@ class PortfolioEnv(gym.Env):
             'step': self.current_step,
         }
         
-        # Early stopping only after sufficient history
+        # early stopping only after sufficient history
         if self.current_step > self.window_size + 30:
             peak = max([self.initial_balance] + 
                       [self.initial_balance * np.prod(1 + np.array(self.returns_memory[:i])) 
@@ -312,7 +312,7 @@ class PortfolioEnv(gym.Env):
                 done = True
                 info['early_stop'] = 'max_drawdown'
         
-        # Convert observation to numpy before returning
+        # convert observation to numpy before returning
         if isinstance(observation, np.ndarray):
             observation = observation.astype(np.float32)
         
@@ -320,14 +320,14 @@ class PortfolioEnv(gym.Env):
     
     def reset(self, seed=None, options=None):
         """
-        Reset the environment to initial state.
+        reset the environment to initial state.
         """
         super().reset(seed=seed)
         
-        # Ensure we have enough data for initial window
+        # ensure we have enough data for initial window
         self.current_step = self.window_size
 
-        # Add debug print
+        # add debug print
         current_date = self.raw_data.index[self.current_step]
         print(f"Environment reset - Starting at date: {current_date}")
 
@@ -335,11 +335,11 @@ class PortfolioEnv(gym.Env):
         self.returns_memory = []
         self.weights_memory = []
         
-        # Initialize with equal weights
+        # initialize with equal weights
         self.current_weights = np.ones(self.num_assets) / self.num_assets
         self.next_rebalance_step = self.current_step + self.steps_per_rebalance
         
-        # Create info dict
+        # create info dict
         info = {
             'initial_portfolio_value': self.initial_balance,
             'initial_weights': self.current_weights.copy(),
@@ -350,13 +350,13 @@ class PortfolioEnv(gym.Env):
     
     def render(self, mode='human'):
         """
-        Render the environment with detailed visualizations.
+        render the environment with detailed visualizations.
         """
         if mode == 'human':
-            # Create a figure with multiple subplots
-            fig = plt.figure(figsize=(20, 12))  # Increased figure size
+            # create a figure with multiple subplots
+            fig = plt.figure(figsize=(20, 12))  # increased figure size
             
-            # 1. Portfolio Value History
+            # 1. portfolio value history
             ax1 = plt.subplot(2, 2, 1)
             portfolio_values = np.cumprod(1 + np.array(self.returns_memory)) * self.initial_balance
             ax1.plot(portfolio_values, 'b-', label='Portfolio Value')
@@ -367,7 +367,7 @@ class PortfolioEnv(gym.Env):
             ax1.legend()
             ax1.grid(True)
             
-            # 2. Cumulative Returns
+            # 2. cumulative returns
             ax2 = plt.subplot(2, 2, 2)
             cumulative_returns = (portfolio_values - self.initial_balance) / self.initial_balance * 100
             ax2.plot(cumulative_returns, 'g-', label='Cumulative Returns')
@@ -378,16 +378,16 @@ class PortfolioEnv(gym.Env):
             ax2.legend()
             ax2.grid(True)
             
-            # 3. Asset Allocation Over Time (Modified)
+            # 3. asset allocation over time (modified)
             ax3 = plt.subplot(2, 2, 3)
             weights_array = np.array(self.weights_memory)
             
-            # Create proper x-axis values
+            # create proper x-axis values
             x_values = np.arange(len(weights_array))
             
-            # Only plot top 5 assets by final weights for clarity
+            # only plot top 5 assets by final weights for clarity
             final_weights = weights_array[-1] if len(weights_array) > 0 else self.current_weights
-            top_indices = np.argsort(final_weights)[-5:]  # Get indices of top 5 weights
+            top_indices = np.argsort(final_weights)[-5:]  # get indices of top 5 weights
             
             for idx in top_indices:
                 asset_name = self.assets[idx].replace('_Close', '')
@@ -396,16 +396,16 @@ class PortfolioEnv(gym.Env):
             ax3.set_title('Top 5 Asset Weights Over Time')
             ax3.set_xlabel('Trading Steps')
             ax3.set_ylabel('Weight')
-            ax3.set_xlim(0, len(weights_array) - 1)  # Set proper x-axis limits
-            ax3.set_ylim(0, max(weights_array.max(), 0.05))  # Set proper y-axis limits with minimum range
+            ax3.set_xlim(0, len(weights_array) - 1)  # set proper x-axis limits
+            ax3.set_ylim(0, max(weights_array.max(), 0.05))  # set proper y-axis limits with minimum range
             ax3.legend(loc='center left', bbox_to_anchor=(1, 0.5))
             ax3.grid(True)
             
-            # Add text showing number of total assets
-            ax3.text(0.02, 0.98, f'Showing top 5 of {len(self.assets)} assets', 
+            # add text showing number of total assets
+            ax3.text(0.02, 0.98, f'showing top 5 of {len(self.assets)} assets', 
                     transform=ax3.transAxes, fontsize=10, verticalalignment='top')
             
-            # 4. Current Asset Allocation (Pie Chart) - Modified to show top 5
+            # 4. current asset allocation (pie chart) - modified to show top 5
             ax4 = plt.subplot(2, 2, 4)
             asset_names = [self.assets[i].replace('_Close', '') for i in top_indices]
             weights = [self.current_weights[i] for i in top_indices]
@@ -418,16 +418,16 @@ class PortfolioEnv(gym.Env):
             ax4.pie(weights, labels=asset_names, autopct='%1.1f%%')
             ax4.set_title('Current Portfolio Allocation (Top 5 Assets)')
             
-            # Adjust layout with more space for legends
+            # adjust layout with more space for legends
             plt.tight_layout()
             plt.show()
             
-            # Print detailed weights information
+            # print detailed weights information
             print("\n=== Current Asset Allocation ===")
             sorted_weights = sorted(zip(self.assets, self.current_weights), 
                                   key=lambda x: x[1], reverse=True)
             for asset, weight in sorted_weights:
-                if weight > 0.01:  # Only show assets with >1% allocation
+                if weight > 0.01:  # only show assets with >1% allocation
                     print(f"{asset.replace('_Close', ''):15s}: {weight*100:6.2f}%")
     
     def save_state(self, filepath: str):
@@ -458,7 +458,7 @@ class PortfolioEnv(gym.Env):
 
     def _get_steps_per_rebalance(self) -> int:
         if self.rebalance_frequency == 'monthly':
-            return 30  # Approximate number of days in a month
+            return 30  # approximate number of days in a month
         elif self.rebalance_frequency == 'yearly':
             return 365
         elif self.rebalance_frequency == 'weekly':
