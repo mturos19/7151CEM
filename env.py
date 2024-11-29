@@ -1,4 +1,3 @@
-# portfolio_env.py
 import numpy as np
 import pandas as pd
 from typing import Dict, List, Tuple
@@ -19,7 +18,8 @@ class PortfolioEnv(gym.Env):
     
     def __init__(
         self,
-        data_path: str,
+        data_path: str = None,
+        data: pd.DataFrame = None,
         window_size: int = 365,
         trading_cost: float = 0.001,
         risk_free_rate: float = 0.02,
@@ -31,10 +31,18 @@ class PortfolioEnv(gym.Env):
     ):        
         super(PortfolioEnv, self).__init__()
         
-        # load and preprocess data
-        self.raw_data = pd.read_csv(data_path)
-        self.raw_data['Date'] = pd.to_datetime(self.raw_data['Date'])
-        self.raw_data.set_index('Date', inplace=True)
+        # Load data either from path or DataFrame
+        if data is not None:
+            self.raw_data = data.copy()
+            if 'Date' in self.raw_data.columns:
+                self.raw_data.set_index('Date', inplace=True)
+        elif data_path is not None:
+            self.raw_data = pd.read_csv(data_path)
+            if 'Date' in self.raw_data.columns:
+                self.raw_data['Date'] = pd.to_datetime(self.raw_data['Date'])
+                self.raw_data.set_index('Date', inplace=True)
+        else:
+            raise ValueError("Either data_path or data must be provided")
         
         # ensure data is properly sorted
         self.raw_data.sort_index(inplace=True)
